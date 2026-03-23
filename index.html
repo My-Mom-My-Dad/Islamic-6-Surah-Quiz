@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sūrah Quiz – Zalzalah, ‘Ādiyāt, Bayyinah, ‘Alaq, Qadr, Qāri‘ah</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="ifavicon.png">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Nunito:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #02152b;
+      --card-bg: #071d38;
+      --accent: #f4c95d;
+      --accent-soft: rgba(244, 201, 93, 0.12);
+      --text-main: #f7f8fc;
+      --text-muted: #c3c7e0;
+      --wrong: #ff6b6b;
+      --right: #4cd964;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0b2a55 0, var(--bg) 55%);
+      color: var(--text-main);
+      min-height: 100vh;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+
+      padding: 24px;
+    }
+
+    /* ---------------------- START PAGE ---------------------- */
+    #start-screen {
+      text-align: center;
+      margin-top: 40px;
+      animation: fadeIn 0.8s ease;
+    }
+
+    #start-screen img {
+      width: 70px;
+      filter: drop-shadow(0 0 6px #f4c95d);
+      margin-bottom: 18px;
+    }
+
+    #start-title {
+      font-family: "Playfair Display", serif;
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: #fdfaf3;
+    }
+
+    #start-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    #start-btn {
+      border-radius: 999px;
+      border: none;
+      padding: 10px 22px;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: linear-gradient(135deg, #f4c95d, #ff9f1c);
+      color: #1b1304;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      transition: transform 0.15s ease;
+    }
+
+    #start-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; transform: scale(0.98); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---------------------- BRAND HEADER ---------------------- */
+    .brand-header {
+      display: none; /* hidden until quiz starts */
+      align-items: center;
+      gap: 12px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .brand-header img {
+      width: 42px;
+      height: 42px;
+      filter: drop-shadow(0 0 6px #f4c95d);
+    }
+
+    .brand-header .brand-title {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #f4c95d;
+      font-family: "Microsoft YaHei UI Light", "Microsoft YaHei UI", "Segoe UI", sans-serif;
+      letter-spacing: 0.03em;
+      text-align: center;
+    }
+
+    /* ---------------------- APP CONTAINER ---------------------- */
+    .app {
+      width: 100%;
+      max-width: 900px;
+      background: linear-gradient(145deg, #06172f, #020b18);
+      border-radius: 24px;
+      box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.03);
+      padding: 28px 26px 26px;
+      position: relative;
+      overflow: hidden;
+      margin-top: 40px;
+      display: none; /* hidden until Start */
+    }
+
+    .app::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(244, 201, 93, 0.12), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.04), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .app-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .title-block {
+      max-width: 70%;
+    }
+
+    h1 {
+      font-family: "Playfair Display", "Times New Roman", serif;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      font-size: 1.9rem;
+      margin-bottom: 6px;
+      color: #fdfaf3;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(244, 201, 93, 0.4);
+      color: var(--accent);
+      background: rgba(4, 12, 30, 0.9);
+    }
+
+    .score-panel {
+      text-align: right;
+      min-width: 150px;
+    }
+
+    .score-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .score-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .score-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .progress-bar {
+      margin-top: 10px;
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f4c95d, #ff9f1c);
+      border-radius: inherit;
+      transition: width 0.35s ease-out;
+    }
+
+    main {
+      background: rgba(3, 10, 26, 0.9);
+      border-radius: 18px;
+      padding: 20px 18px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .meta-left {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .pill strong {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .question-index {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .question-surah {
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-bottom: 4px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .question-text {
+      font-family: "Playfair Display", "Times New Roman", serif;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      color: #fdfaf3;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .option {
+      position: relative;
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: rgba(7, 29, 56, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.08s ease;
+    }
+
+    .option:hover {
+      background: rgba(10, 40, 76, 0.95);
+      border-color: rgba(244, 201, 93, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .option.disabled {
+      cursor: default;
+      opacity: 0.9;
+      transform: none;
+    }
+
+    .option-label {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .option-text {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .option.correct {
+      border-color: rgba(76, 217, 100, 0.9);
+      background: radial-gradient(circle at 0 0, rgba(76, 217, 100, 0.18), rgba(7, 29, 56, 0.95));
+    }
+
+    .option.correct .option-label {
+      border-color: rgba(76, 217, 100, 0.9);
+      color: var(--right);
+    }
+
+    .option.wrong {
+      border-color: rgba(255, 107, 107, 0.9);
+      background: radial-gradient(circle at 0 0, rgba(255, 107, 107, 0.18), rgba(7, 29, 56, 0.95));
+    }
+
+    .option.wrong .option-label {
+      border-color: rgba(255, 107, 107, 0.9);
+      color: var(--wrong);
+    }
+
+    .feedback {
+      min-height: 22px;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      color: var(--text-muted);
+    }
+
+    .feedback.correct {
+      color: var(--right);
+    }
+
+    .feedback.wrong {
+      color: var(--wrong);
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: none;
+      padding: 9px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition:
+        background 0.2s ease,
+        transform 0.08s ease,
+        box-shadow 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f4c95d, #ff9f1c);
+      color: #1b1304;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.04);
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: default;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .summary {
+      text-align: center;
+      padding: 10px 6px 4px;
+    }
+
+    .summary-title {
+      font-family: "Playfair Display", "Times New Roman", serif;
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+
+    .summary-line {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .summary-highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .summary-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .surah-tags {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .surah-tag {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(244, 201, 93, 0.4);
+    }
+
+    #trophy {
+      margin-top: 10px;
+      max-width: 140px;
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .app {
+        padding: 20px 16px 18px;
+        border-radius: 18px;
+      }
+
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .title-block {
+        max-width: 100%;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      main {
+        padding: 16px 14px 14px;
+      }
+
+      .option {
+        padding: 9px 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- START SCREEN -->
+  <div id="start-screen">
+    <img src="ifavicon.png" alt="Logo">
+    <div id="start-title">The 6 Sūrahs: Learning Quiz</div>
+    <div id="start-subtitle">Presented by AK Companies Inc. Designs – 2026.</div>
+    <button id="start-btn">Start</button>
+  </div>
+
+  <!-- Brand Header -->
+  <div class="brand-header">
+    <img src="ifavicon.png" alt="Logo">
+    <div class="brand-title">AK Companies Inc.</div>
+  </div>
+
+  <div class="app">
+    <div class="app-inner">
+
+      <header>
+        <div class="title-block">
+          <h1>The 6 Sūrahs: Learning Quiz</h1>
+          <p class="subtitle">
+            Test your memory and understanding of six short yet powerful sūrahs:
+            <strong>Az-Zalzalah</strong>, <strong>Al-‘Ādiyāt</strong>, <strong>Al-Bayyinah</strong>,
+            <strong>Al-‘Alaq</strong>, <strong>Al-Qadr</strong>, and <strong>Al-Qāri‘ah</strong>.
+          </p>
+          <div class="badge-row">
+            <span class="badge">Qur’ān Revision • Short Sūrahs</span
+            <span class="badge">Multiple Choice</span>
+          </div>
+        </div>
+
+        <div class="score-panel">
+          <div class="score-label">Score</div>
+          <div class="score-value" id="score">0</div>
+          <div class="score-sub">
+            <span id="answered-count">0</span>/<span id="total-count">0</span> answered
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div class="meta-row">
+          <div class="meta-left">
+            <div class="pill">
+              <strong id="meta-surah">Sūrah</strong>
+              <span id="meta-surah-extra"></span>
+            </div>
+            <div class="pill">
+              Question <span id="meta-q-index">1</span> of <span id="meta-q-total">1</span>
+            </div>
+          </div>
+          <div class="question-index" id="meta-difficulty">Level: Gentle Reflection</div>
+        </div>
+
+        <div id="question-area">
+          <div class="question-surah" id="question-surah-label"></div>
+          <div class="question-text" id="question-text"></div>
+
+          <div class="options" id="options"></div>
+
+          <div class="feedback" id="feedback"></div>
+
+          <div class="controls">
+            <button class="btn btn-ghost" id="restart-btn" style="display:none;">Restart</button>
+            <button class="btn btn-primary" id="next-btn" disabled>
+              Next
+              <span aria-hidden="true">➜</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="summary-area" style="display:none;">
+          <div class="summary">
+            <div class="summary-title">Quiz Complete</div>
+            <div class="summary-line">
+              You scored <span class="summary-highlight" id="summary-score">0</span>
+              out of <span class="summary-highlight" id="summary-total">0</span>.
+            </div>
+            <div class="summary-note" id="summary-message"></div>
+
+            <img id="trophy" src="trophy.png" alt="Trophy">
+
+            <div class="surah-tags">
+              <span class="surah-tag">Az-Zalzalah</span>
+              <span class="surah-tag">Al-‘Ādiyāt</span>
+              <span class="surah-tag">Al-Bayyinah</span>
+              <span class="surah-tag">Al-‘Alaq</span>
+              <span class="surah-tag">Al-Qadr</span>
+              <span class="surah-tag">Al-Qāri‘ah</span>
+            </div>
+
+            <button class="btn btn-primary" id="play-again-btn" style="margin-top:14px;">
+              Try Again
+            </button>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer style="
+    margin-top: 20px;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #c3c7e0;
+    padding: 8px 0;
+    opacity: 0.7;
+  ">
+    © 2026 • AK Companies Inc. • Qur’ān Revision Project • Built for Class of Ustadh Said Alhouty • Bayaan Academy
+  </footer>
+
+  <script>
+    /* ---------------------- START SCREEN LOGIC ---------------------- */
+    const startScreen = document.getElementById("start-screen");
+    const startBtn = document.getElementById("start-btn");
+    const brandHeader = document.querySelector(".brand-header");
+    const app = document.querySelector(".app");
+
+    startBtn.addEventListener("click", () => {
+      startScreen.style.animation = "fadeOut 0.6s forwards";
+      setTimeout(() => {
+        startScreen.style.display = "none";
+        brandHeader.style.display = "flex";
+        app.style.display = "block";
+      }, 600);
+    });
+
+    /* ---------------------- QUESTIONS (20 TOTAL) ---------------------- */
+    const questions = [
+      /* --- Your original 13 questions remain unchanged --- */
+
+      { surah: "Az-Zalzalah", label: "Sūrah Az-Zalzalah (99)",
+        text: "According to Sūrah Az-Zalzalah, what will the earth do on the Day of Judgment?",
+        options: [
+          "It will become completely dark and silent.",
+          "It will shake violently and bring forth its burdens.",
+          "It will turn into a garden for the believers.",
+          "It will split into seven layers."
+        ],
+        correctIndex: 1,
+        difficulty: "Reflection on the Final Earthquake"
+      },
+
+      { surah: "Az-Zalzalah", label: "Sūrah Az-Zalzalah (99)",
+        text: "In Sūrah Az-Zalzalah, what is said about even the smallest deeds?",
+        options: [
+          "Only major sins will be weighed.",
+          "Only deeds done in public will be seen.",
+          "Whoever does an atom’s weight of good or evil will see it.",
+          "Deeds are forgotten after repentance."
+        ],
+        correctIndex: 2,
+        difficulty: "Accountability for Every Deed"
+      },
+
+      { surah: "Al-‘Ādiyāt", label: "Sūrah Al-‘Ādiyāt (100)",
+        text: "Sūrah Al-‘Ādiyāt begins by swearing an oath by what?",
+        options: [
+          "The stars and the moon.",
+          "The angels who record deeds.",
+          "The charging horses that pant and strike sparks.",
+          "The mountains and the seas."
+        ],
+        correctIndex: 2,
+        difficulty: "Oaths and Imagery"
+      },
+
+      { surah: "Al-‘Ādiyāt", label: "Sūrah Al-‘Ādiyāt (100)",
+        text: "What human quality is highlighted as a blameworthy trait in Sūrah Al-‘Ādiyāt?",
+        options: [
+          "Excessive generosity.",
+          "Ingratitude to his Lord.",
+          "Fear of the Hereafter.",
+          "Love of solitude."
+        ],
+        correctIndex: 1,
+        difficulty: "Character and Gratitude"
+      },
+
+      { surah: "Al-Bayyinah", label: "Sūrah Al-Bayyinah (98)",
+        text: "According to Sūrah Al-Bayyinah, what is “al-bayyinah” (the clear proof) that came to the people?",
+        options: [
+          "A sign in the sky.",
+          "A messenger from Allah with the Qur'an.",
+          "A miracle of turning night into day.",
+          "A great earthquake."
+        ],
+        correctIndex: 1,
+        difficulty: "The Clear Proof"
+      },
+
+      { surah: "Al-Bayyinah", label: "Sūrah Al-Bayyinah (98)",
+        text: "In Sūrah Al-Bayyinah, which group is described as “the best of creation”?",
+        options: [
+          "Those who have the most wealth.",
+          "Those who migrate for worldly gain.",
+          "Those who believe and do righteous deeds.",
+          "Those who memorize the most poetry."
+        ],
+        correctIndex: 2,
+        difficulty: "Best of Creation"
+      },
+
+      { surah: "Al-‘Alaq", label: "Sūrah Al-‘Alaq (96)",
+        text: "What is the very first command in the opening verses of Sūrah Al-‘Alaq?",
+        options: [
+          "Pray to your Lord.",
+          "Fast for your Lord.",
+          "Read in the Name of your Lord.",
+          "Give charity to the poor."
+        ],
+        correctIndex: 2,
+        difficulty: "The First Revelation"
+      },
+
+      { surah: "Al-‘Alaq", label: "Sūrah Al-‘Alaq (96)",
+        text: "Sūrah Al-‘Alaq mentions that Allah taught the human being by what?",
+        options: [
+          "By the stars.",
+          "By the pen.",
+          "By the wind.",
+          "By the mountains."
+        ],
+        correctIndex: 1,
+        difficulty: "Knowledge and the Pen"
+      },
+
+      { surah: "Al-Qadr", label: "Sūrah Al-Qadr (97)",
+        text: "What does Sūrah Al-Qadr primarily describe?",
+        options: [
+          "The story of Prophet Musa.",
+          "The creation of the mountains.",
+          "The Night of Power and Allah's Greatness and Mercy.",
+          "The Day of Judgement."
+        ],
+        correctIndex: 2,
+        difficulty: "The Night of Power"
+      },
+
+      { surah: "Al-Qadr", label: "Sūrah Al-Qadr (97)",
+        text: "According to Sūrah Al-Qadr, how is the Night of Power described in terms of value?",
+        options: [
+          "Equal to one night.",
+          "Better than a thousand months.",
+          "Equal to one year.",
+          "Equal to ten nights."
+        ],
+        correctIndex: 1,
+        difficulty: "Better than a Thousand Months"
+      },
+
+      { surah: "Al-Qadr", label: "Sūrah Al-Qadr (97)",
+        text: "What happens during the Night of Power?",
+        options: [
+          "The sun rises from the west.",
+          "The mountains shake.",
+          "The seas split.",
+          "The angels descend by permission of their Lord."
+        ],
+        correctIndex: 3,
+        difficulty: "Angels Descending"
+      },
+
+      { surah: "Al-Qadr", label: "Sūrah Al-Qadr (97)",
+        text: "What is the main theme of Sūrah Al-Qadr?",
+        options: [
+          "The importance of charity.",
+          "The Blessing and Power of Allah on a special night.",
+          "The story of past nations.",
+          "The creation of the heavens."
+        ],
+        correctIndex: 1,
+        difficulty: "Blessing of a Special Night"
+      },
+
+      { surah: "Al-Qadr", label: "Sūrah Al-Qadr (97)",
+        text: "How is the Night of Power described towards its end?",
+        options: [
+          "A night of fear.",
+          "A night of confusion.",
+          "A night of storms.",
+          "A night of peace until dawn."
+        ],
+        correctIndex: 3,
+        difficulty: "Peace Until Dawn"
+      },
+
+      /* ---------------------- NEW: SŪRAH AL-QĀRI‘AH (5 QUESTIONS) ---------------------- */
+
+      { surah: "Al-Qāri‘ah", label: "Sūrah Al-Qāri‘ah (101)",
+        text: "What does the word 'Al-Qāri‘ah' refer to?",
+        options: [
+          "A peaceful night.",
+          "The striking calamity.",
+          "A gentle breeze.",
+          "A blessed morning."
+        ],
+        correctIndex: 1,
+        difficulty: "Meaning of the Title"
+      },
+
+      { surah: "Al-Qāri‘ah", label: "Sūrah Al-Qāri‘ah (101)",
+        text: "How are people described on the Day of Al-Qāri‘ah?",
+        options: [
+          "Calm and collected.",
+          "Like scattered moths.",
+          "Like mountains of gold.",
+          "Like stars in the sky."
+        ],
+        correctIndex: 1,
+        difficulty: "Imagery of the Day"
+      },
+
+      { surah: "Al-Qāri‘ah", label: "Sūrah Al-Qāri‘ah (101)",
+        text: "How are the mountains described on that Day?",
+        options: [
+          "Firm and unshakable.",
+          "Like fluffed wool.",
+          "Made of iron.",
+          "Covered in darkness."
+        ],
+        correctIndex: 1,
+        difficulty: "Mountains on the Day"
+      },
+
+      { surah: "Al-Qāri‘ah", label: "Sūrah Al-Qāri‘ah (101)",
+        text: "What determines a person's final outcome in Sūrah Al-Qāri‘ah?",
+        options: [
+          "Their wealth.",
+          "Their family name.",
+          "The heaviness of their scales.",
+          "Their physical strength."
+        ],
+        correctIndex: 2,
+        difficulty: "Weighing of Deeds"
+      },
+
+      { surah: "Al-Qāri‘ah", label: "Sūrah Al-Qāri‘ah (101)",
+        text: "Where will the one with light scales end up?",
+        options: [
+          "In gardens beneath which rivers flow.",
+          "In a pleasant valley.",
+          "In a blazing fire.",
+          "In a peaceful home."
+        ],
+        correctIndex: 2,
+        difficulty: "Final Destination"
+      },
+
+      /* ---------------------- EXTRA QUESTIONS TO MAKE 20 ---------------------- */
+
+      { surah: "Al-Bayyinah", label: "Sūrah Al-Bayyinah (98)",
+        text: "What does Sūrah Al-Bayyinah say about those who disbelieve from the People of the Book?",
+        options: [
+          "They will be forgiven automatically.",
+          "They are the worst of creation.",
+          "They will be honored in Paradise.",
+          "They will be given extra time."
+        ],
+        correctIndex: 1,
+        difficulty: "Contrast of Groups"
+      },
+
+      { surah: "Al-‘Alaq", label: "Sūrah Al-‘Alaq (96)",
+        text: "Which arrogant person is warned in the later verses of Sūrah Al-‘Alaq?",
+        options: [
+          "The one who forbids the servant from praying.",
+          "The one who gives charity.",
+          "The one who fasts often.",
+          "The one who teaches children."
+        ],
+        correctIndex: 0,
+        difficulty: "Warning to the Oppressor"
+      }
+    ];
+
+    /* ---------------------- QUIZ LOGIC (UNCHANGED) ---------------------- */
+
+    let currentIndex = 0;
+    let score = 0;
+    let answered = 0;
+
+    const totalCountEl = document.getElementById("total-count");
+    const answeredCountEl = document.getElementById("answered-count");
+    const scoreEl = document.getElementById("score");
+    const progressFillEl = document.getElementById("progress-fill");
+
+    const metaSurahEl = document.getElementById("meta-surah");
+    const metaSurahExtraEl = document.getElementById("meta-surah-extra");
+    const metaQIndexEl = document.getElementById("meta-q-index");
+    const metaQTotalEl = document.getElementById("meta-q-total");
+    const metaDifficultyEl = document.getElementById("meta-difficulty");
+
+    const questionSurahLabelEl = document.getElementById("question-surah-label");
+    const questionTextEl = document.getElementById("question-text");
+    const optionsEl = document.getElementById("options");
+    const feedbackEl = document.getElementById("feedback");
+
+    const nextBtn = document.getElementById("next-btn");
+    const restartBtn = document.getElementById("restart-btn");
+    const questionArea = document.getElementById("question-area");
+    const summaryArea = document.getElementById("summary-area");
+    const summaryScoreEl = document.getElementById("summary-score");
+    const summaryTotalEl = document.getElementById("summary-total");
+    const summaryMessageEl = document.getElementById("summary-message");
+    const playAgainBtn = document.getElementById("play-again-btn");
+    const trophyEl = document.getElementById("trophy");
+
+    function shuffle(array) {
+      const arr = array.slice();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    let order = shuffle([...Array(questions.length).keys()]);
+
+    function updateProgress() {
+      answeredCountEl.textContent = answered;
+      totalCountEl.textContent = questions.length;
+      const percent = (answered / questions.length) * 100;
+      progressFillEl.style.width = percent + "%";
+    }
+
+    function renderQuestion() {
+      if (currentIndex >= order.length) {
+        showSummary();
+        return;
+      }
+
+      const q = questions[order[currentIndex]];
+
+      metaSurahEl.textContent = q.surah;
+      metaSurahExtraEl.textContent = " • Short Sūrah";
+      metaQIndexEl.textContent = currentIndex + 1;
+      metaQTotalEl.textContent = questions.length;
+      metaDifficultyEl.textContent = "Level: " + q.difficulty;
+
+      questionSurahLabelEl.textContent = q.label;
+      questionTextEl.textContent = q.text;
+
+      optionsEl.innerHTML = "";
+      feedbackEl.textContent = "";
+      feedbackEl.className = "feedback";
+      nextBtn.disabled = true;
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.dataset.index = idx;
+
+        const label = document.createElement("div");
+        label.className = "option-label";
+        label.textContent = String.fromCharCode(65 + idx);
+
+        const text = document.createElement("div");
+        text.className = "option-text";
+        text.textContent = opt;
+
+        btn.appendChild(label);
+        btn.appendChild(text);
+
+        btn.addEventListener("click", () => handleOptionClick(btn, q.correctIndex));
+
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function handleOptionClick(selectedBtn, correctIndex) {
+      const alreadyAnswered = Array.from(optionsEl.children).some(btn =>
+        btn.classList.contains("correct") || btn.classList.contains("wrong")
+      );
+      if (alreadyAnswered) return;
+
+      const selectedIndex = parseInt(selectedBtn.dataset.index, 10);
+
+      Array.from(optionsEl.children).forEach(btn => {
+        btn.classList.add("disabled");
+      });
+
+      if (selectedIndex === correctIndex) {
+        selectedBtn.classList.add("correct");
+        feedbackEl.textContent = "Correct! — May Allah give you knowledge and allow you to always practice on it.";
+        feedbackEl.classList.add("correct");
+        score++;
+        scoreEl.textContent = score;
+      } else {
+        selectedBtn.classList.add("wrong");
+        feedbackEl.textContent = "Not quite. Please reflect again on the Ayāt.";
+        feedbackEl.classList.add("wrong");
+        const correctBtn = Array.from(optionsEl.children).find(
+          btn => parseInt(btn.dataset.index, 10) === correctIndex
+        );
+        if (correctBtn) {
+          correctBtn.classList.add("correct");
+        }
+      }
+
+      answered++;
+      updateProgress();
+      nextBtn.disabled = false;
+
+      if (currentIndex === order.length - 1) {
+        nextBtn.textContent = "Finish";
+      } else {
+        nextBtn.textContent = "Next ➜";
+      }
+    }
+
+    function showSummary() {
+      questionArea.style.display = "none";
+      summaryArea.style.display = "block";
+      restartBtn.style.display = "none";
+
+      summaryScoreEl.textContent = score;
+      summaryTotalEl.textContent = questions.length;
+
+      const ratio = score / questions.length;
+      let message;
+
+      if (ratio === 1) {
+        message = "Masha Allah! You completed the quiz perfectly and answered every question correctly.";
+        trophyEl.style.display = "block";
+      } else if (ratio >= 0.6) {
+        message = "Masha Allah — a strong grasp. A little more review will make it even firmer, inshAllah.";
+        trophyEl.style.display = "none";
+      } else {
+        message = "A gentle start. Please revisit the Sūrahs and return to the quiz when you’re ready.";
+        trophyEl.style.display = "none";
+      }
+
+      summaryMessageEl.textContent = message;
+    }
+
+    function restartQuiz() {
+      score = 0;
+      answered = 0;
+      currentIndex = 0;
+      order = shuffle([...Array(questions.length).keys()]);
+      scoreEl.textContent = score;
+      updateProgress();
+      questionArea.style.display = "block";
+      summaryArea.style.display = "none";
+      restartBtn.style.display = "inline-flex";
+      trophyEl.style.display = "none";
+      renderQuestion();
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (currentIndex < order.length) {
+        currentIndex++;
+        if (currentIndex >= order.length) {
+          showSummary();
+        } else {
+          renderQuestion();
+        }
+      }
+    });
+
+    restartBtn.addEventListener("click", restartQuiz);
+    playAgainBtn.addEventListener("click", restartQuiz);
+
+    // Initialize
+totalCountEl.textContent = questions.length;
+metaQTotalEl.textContent = questions.length;
+updateProgress();
+restartBtn.style.display = "inline-flex";
+renderQuestion();
+  </script>
+
+</body>
+</html>
